@@ -7,10 +7,9 @@ public class PlayerScript : UnitScript
     bool isLeftMoveInput;
     bool isRightMoveInput;
     bool isJumpInput;
-    int isWall;
+    int isWall; // 1: 왼벽 2:오른벽 
     int jumpCnt;
     float sideWallGravity;
-    public float sideWallGravityPer;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +22,7 @@ public class PlayerScript : UnitScript
     {
         if (isWall == 0)
         {
+            //어떠한 벽에도 붙지 않았을때
             sideWallGravity = 1;
         }
         else
@@ -41,42 +41,54 @@ public class PlayerScript : UnitScript
         OnFloorEvent();
         if (isLeftMoveInput)
         {
-            if (!UnitsOnLeftWall())
-            {
-                //왼쪽 이동
-                isWall = 0;
-                isLeftMoveInput = false;
-                rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
-            }
-            else
-            {
-                //벽에 붙었을때 왼쪽 이동
-                if (!UnitIsOnFloor())
-                {
-                    isWall = 1;
-                }
-                rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
-                jumpCnt = 0;
-            }
+            MovingLeft();
         }
         if (isRightMoveInput)
         {
-            if (!UnitsOnRightWall())
+            MovingRight();
+        }
+    }
+
+    public void MovingLeft()
+    {
+        SetMotionDir(false);
+        if (!UnitsOnLeftWall())
+        {
+            //왼쪽 이동
+            isWall = 0;
+            isLeftMoveInput = false;
+            rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
+        }
+        else
+        {
+            //벽에 붙었을때 왼쪽 이동
+            if (!UnitIsOnFloor())
             {
-                isWall = 0;
-                isRightMoveInput = false;
-                rigid.velocity = new Vector2(Speed, rigid.velocity.y);
+                isWall = 1;
             }
-            else
+            rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
+            jumpCnt = maxJump-1;
+        }
+        
+    }
+    public void MovingRight()
+    {
+        SetMotionDir(true);
+        if (!UnitsOnRightWall())
+        {
+            isWall = 0;
+            isRightMoveInput = false;
+            rigid.velocity = new Vector2(Speed, rigid.velocity.y);
+        }
+        else
+        {
+            if (!UnitIsOnFloor())
             {
-                if (!UnitIsOnFloor())
-                {
-                    isWall = 2;
-                }
-                
-                rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
-                jumpCnt = 0;
+                isWall = 2;
             }
+
+            rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
+            jumpCnt = maxJump - 1;
         }
     }
     public void Jump()
@@ -139,14 +151,14 @@ public class PlayerScript : UnitScript
         }
         else
         {
-            if (!UnitsOnLeftWall() && !UnitsOnRightWall())
-            {
-                footColider.enabled = false;
-            }
-            else
-            {
-                footColider.enabled = true;
-            }
+            //if (!UnitsOnLeftWall() && !UnitsOnRightWall())
+            //{
+            //    footColider.enabled = false;
+            //}
+            //else
+            //{
+            //    footColider.enabled = true;
+            //}
             SetJumpPower(jumpingJumpPower);
             Speed = GetSpeed("Jump");
         }
