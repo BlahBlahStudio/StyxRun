@@ -17,14 +17,24 @@ public class UnitScript : MonoBehaviour
             _speed = value;
         }
     }
+    [Header("오브젝트 설정")]
+    public GameObject motion;
+    public Vector3 motionSize;
+
+    [SerializeField]
+    [Header("점프 관련")]
     private float jumpPower;
     public float jumpingJumpPower;
     public float walkingJumpPower;
+    public float sideWallGravityPer;
+    public int maxJump;
+
+    [Header("속도 관련")]
     public float setSpeed;
     public float walkingSpeed;
     public float jumpingSpeed;
-    public int maxJump;
-    bool isOnFloor;
+
+    [Header("충돌 및 벽")]
     public Collider2D footColider;
     public LayerMask floorLayer;
     public Vector3 groundChkPos;
@@ -36,6 +46,7 @@ public class UnitScript : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        motionSize = motion.transform.localScale;
     }
     // Update is called once per frame
     public void SetMoveKeys()
@@ -84,6 +95,17 @@ public class UnitScript : MonoBehaviour
     protected virtual void OnFloorEvent()
     {
 
+    }
+    protected virtual void SetMotionDir(bool dir)
+    {
+        if (dir)
+        {
+            motion.transform.localScale = motionSize;
+        }
+        else
+        {
+            motion.transform.localScale = new Vector3(-motionSize.x, motionSize.y, motionSize.z);
+        }
     }
     public bool UnitsOnLeftWall()
     {
@@ -172,8 +194,9 @@ public class UnitScript : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = new Color(1, 0, 0, 0.3f);
         Gizmos.DrawCube(transform.position + groundChkPos, groundChkSize);
+        Gizmos.color = new Color(0, 1, 0, 0.3f);
         Gizmos.DrawCube(transform.position + leftWallChkPos, wallChkSize);
         Gizmos.DrawCube(transform.position + rightWallChkPos, wallChkSize);
     }
