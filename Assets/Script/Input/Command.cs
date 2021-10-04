@@ -24,9 +24,9 @@ public class Command
     public void Execute()
     {
         msg();
-        Debug.Log(owner);
+        //Debug.Log(owner);
         if (owner != null)
-            Debug.Log(setKey + " key is Activate, owner :" + owner.name);
+           Debug.Log(setKey + " key is Activate, owner :" + owner.name);
     }
     public void unExecute()
     {
@@ -36,10 +36,10 @@ public class Command
     }
     public void Init()
     {
-        Debug.Log("Init Setting : " + setKey);
+        //Debug.Log("Init Setting : " + setKey);
     }
     public void unInit()
     {
-        Debug.Log("unInit Setting : " + setKey);
+        //Debug.Log("unInit Setting : " + setKey);
     }
 }

@@ -34,7 +34,7 @@ public class CameraFollow : MonoBehaviour
 		originalPos = camTransform.localPosition;
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		Vector3 newPosition = Target.position;
 		newPosition.z = -10;
