@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7431398236066678}
-  m_LocalRotation: {x: -0, y: -0, z: 0.8308621, w: 0.5564784}
+  m_LocalRotation: {x: -0, y: -0, z: 0.83086306, w: 0.5564769}
   m_LocalPosition: {x: -0.008, y: -0.037, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -152,7 +152,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.3125, y: 0.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -245,7 +245,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440589616765045644}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.006, y: -0.427, z: 0.31129575}
+  m_LocalPosition: {x: -0.006, y: -0.427, z: 0.3112957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2797196028976140893}
@@ -449,7 +449,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4451469553520846017}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.099, y: 0.006, z: 0.31129575}
+  m_LocalPosition: {x: 0.004, y: -0.144, z: 0.3112957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9184499725929150540}
@@ -531,7 +531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4511435946893551667}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.051, y: -0.010000005, z: 0.31129575}
+  m_LocalPosition: {x: 0.051, y: -0.031, z: 0.3112957}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 9184499725929150540}
@@ -618,7 +618,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3249316317538176968}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.8466667}
 --- !u!212 &4614679418118199674
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 550593059668674460}
   - component: {fileID: 4040549993544778444}
   m_Layer: 10
-  m_Name: Square
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -695,7 +695,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5476835992234728067}
   m_LocalRotation: {x: 0, y: 0, z: -0.68123204, w: 0.7320675}
-  m_LocalPosition: {x: 0.25, y: 0.018, z: 0.31129575}
+  m_LocalPosition: {x: 0.216, y: -0.042, z: 0.3112957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9184499725929150540}

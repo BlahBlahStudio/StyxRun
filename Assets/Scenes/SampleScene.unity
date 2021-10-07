@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 543217099}
   m_Layer: 12
   m_Name: "\uC717\uB545 (5)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -688,7 +688,7 @@ GameObject:
   - component: {fileID: 1018328817}
   m_Layer: 12
   m_Name: "\uC717\uB545 (2)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -797,7 +797,7 @@ GameObject:
   - component: {fileID: 1292877223}
   m_Layer: 12
   m_Name: "\uC717\uB545 (3)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -906,7 +906,7 @@ GameObject:
   - component: {fileID: 1338004194}
   m_Layer: 12
   m_Name: "\uC544\uB798\uB545"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1155,7 +1155,7 @@ GameObject:
   - component: {fileID: 1485831041}
   m_Layer: 12
   m_Name: "\uC717\uB545 (1)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1307,7 +1307,7 @@ GameObject:
   - component: {fileID: 1587999740}
   m_Layer: 12
   m_Name: "\uC717\uB545"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1495,7 +1495,7 @@ GameObject:
   - component: {fileID: 1879924140}
   m_Layer: 12
   m_Name: "\uC717\uB545 (4)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1604,7 +1604,7 @@ GameObject:
   - component: {fileID: 1894067798}
   m_Layer: 12
   m_Name: "\uC717\uB545 (6)"
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1808,9 +1808,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 476871556275646298, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.38
+    - target: {fileID: 4195782186375471025, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: groundChkSize.y
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 4195782186375471037, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
       propertyPath: m_Name
@@ -1860,13 +1860,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5476835992234728067, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-      propertyPath: m_Name
-      value: Sword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8942498456710248457, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+    - target: {fileID: 6524326246761095279, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.124
+      value: -0.085
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
