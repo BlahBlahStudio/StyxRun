@@ -16,6 +16,9 @@ public class PlayerScript : UnitScript
     public GameObject hand;
     public Animator attackAnimation;
 
+    [Header("모션 이동 관련")]
+    public Animator motionAnimation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,7 @@ public class PlayerScript : UnitScript
     // Update is called once per frame
     void Update()
     {
+     
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         SetSideWallGravity(isWall);
         OnFloorEvent();
@@ -63,12 +67,14 @@ public class PlayerScript : UnitScript
         if (!UnitsOnLeftWall())
         {
             //왼쪽 이동
+            motionAnimation.SetBool("Moving",true);
             isWall = 0;
             isLeftMoveInput = false;
             rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
         }
         else
         {
+            motionAnimation.SetBool("Moving", false);
             //벽에 붙었을때 왼쪽 이동
             if (!isOnFloor)
             {
@@ -87,12 +93,14 @@ public class PlayerScript : UnitScript
         }
         if (!UnitsOnRightWall())
         {
+            motionAnimation.SetBool("Moving", true);
             isWall = 0;
             isRightMoveInput = false;
             rigid.velocity = new Vector2(Speed, rigid.velocity.y);
         }
         else
         {
+            motionAnimation.SetBool("Moving", false);
             if (!isOnFloor)
             {
                 isWall = 2;
@@ -142,11 +150,13 @@ public class PlayerScript : UnitScript
     }
     protected override void MoveLeftCancel()
     {
+        motionAnimation.SetBool("Moving", false);
         isLeftMoveInput = false;
         rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
     }
     protected override void MoveRightCancel()
     {
+        motionAnimation.SetBool("Moving", false);
         isRightMoveInput = false;
         rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
     }
