@@ -13,7 +13,9 @@ public class InputManager : MonoBehaviour
         "Q", "W", "E","R","T","Y", 
           "A", "S","D","F","G","H",
            "Z", "X","C","V","B","N",
-        "Space","1","2","3","4","5"};
+        "Space","1","2","3","4","5",
+        "Mouse0","Mouse1"
+        };
     private void Awake()
     {
         instance = this;

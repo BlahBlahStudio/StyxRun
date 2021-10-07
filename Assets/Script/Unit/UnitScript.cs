@@ -54,11 +54,20 @@ public class UnitScript : MonoBehaviour
         SetKey("A", MoveLeft,MoveLeftCancel);
         SetKey("D", MoveRight, MoveRightCancel);
         SetKey("W", MoveUp, MoveUpCancel);
+        SetKey("Mouse0", Attack,AttackCancel);
     }
-    public void SetKey(string key,Command.Msg msg,Command.Msg unMsg)
+    public void SetKey(string key, Command.Msg msg, Command.Msg unMsg=null)
     {
         Command c = new Command(key,msg,unMsg,gameObject);
         InputManager.SetKey(key, c);
+    }
+    protected virtual void Attack()
+    {
+
+    }
+    protected virtual void AttackCancel()
+    {
+
     }
     protected virtual void MoveUp()
     {

@@ -23,14 +23,14 @@ public class Command
     }
     public void Execute()
     {
-        msg();
+        if(msg!=null)msg();
         //Debug.Log(owner);
         if (owner != null)
            Debug.Log(setKey + " key is Activate, owner :" + owner.name);
     }
     public void unExecute()
     {
-        unMsg();
+        if(unMsg!=null) unMsg();
         if (owner != null)
             Debug.Log(setKey + " key is InActive, owner :" + owner.name);
     }

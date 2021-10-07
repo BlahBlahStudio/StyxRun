@@ -44,3 +44,6 @@ TagManager:
   - name: Unit
     uniqueID: 3003220643
     locked: 0
+  - name: Mouse
+    uniqueID: 1377134157
+    locked: 0
