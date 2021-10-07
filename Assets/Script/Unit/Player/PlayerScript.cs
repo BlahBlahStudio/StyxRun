@@ -9,7 +9,12 @@ public class PlayerScript : UnitScript
     bool isJumpInput;
     int isWall; // 1: 왼벽 2:오른벽 
     int jumpCnt;
+    bool isOnFloor;
     float sideWallGravity;
+
+    [Header("공격 관련")]
+    public GameObject hand;
+    public Animator attackAnimation;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +24,20 @@ public class PlayerScript : UnitScript
 
     // Update is called once per frame
     void Update()
+    {
+        SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        SetSideWallGravity(isWall);
+        OnFloorEvent();
+    }
+
+    private void FixedUpdate()
+    {
+  
+        MovingLeft(isLeftMoveInput);
+        MovingRight(isRightMoveInput);
+    }
+    #region 이동
+    private void SetSideWallGravity(int isWall)
     {
         if (isWall == 0)
         {
@@ -31,27 +50,16 @@ public class PlayerScript : UnitScript
             {
                 sideWallGravity -= sideWallGravityPer * Time.deltaTime;
             }
-           
+
         }
+
     }
-
-
-    private void FixedUpdate()
+    public void MovingLeft(bool isLefting)
     {
-        OnFloorEvent();
-        if (isLeftMoveInput)
+        if (!isLefting)
         {
-            MovingLeft();
+            return;
         }
-        if (isRightMoveInput)
-        {
-            MovingRight();
-        }
-    }
-
-    public void MovingLeft()
-    {
-        SetMotionDir(false);
         if (!UnitsOnLeftWall())
         {
             //왼쪽 이동
@@ -62,7 +70,7 @@ public class PlayerScript : UnitScript
         else
         {
             //벽에 붙었을때 왼쪽 이동
-            if (!UnitIsOnFloor())
+            if (!isOnFloor)
             {
                 isWall = 1;
             }
@@ -71,9 +79,12 @@ public class PlayerScript : UnitScript
         }
         
     }
-    public void MovingRight()
+    public void MovingRight(bool isRighting)
     {
-        SetMotionDir(true);
+        if (!isRighting)
+        {
+            return;
+        }
         if (!UnitsOnRightWall())
         {
             isWall = 0;
@@ -82,7 +93,7 @@ public class PlayerScript : UnitScript
         }
         else
         {
-            if (!UnitIsOnFloor())
+            if (!isOnFloor)
             {
                 isWall = 2;
             }
@@ -91,6 +102,7 @@ public class PlayerScript : UnitScript
             jumpCnt = maxJump - 1;
         }
     }
+
     public void Jump()
     {
             jumpCnt++;
@@ -138,6 +150,17 @@ public class PlayerScript : UnitScript
         isRightMoveInput = false;
         rigid.velocity = new Vector2(rigid.velocity.normalized.x * 0.5f, rigid.velocity.y);
     }
+    #endregion
+
+    protected override void Attack()
+    {
+        attackAnimation.SetBool("Attack", true);
+    }
+    protected override void AttackCancel()
+    {
+        attackAnimation.SetBool("Attack", false);
+    }
+
     protected override void OnFloorEvent()
     {
         if (UnitIsOnFloor())
@@ -147,20 +170,30 @@ public class PlayerScript : UnitScript
             isWall = 0;
             SetJumpPower(walkingJumpPower);
             Speed = GetSpeed("Walk");
-
+            isOnFloor = true;
+            
         }
         else
         {
-            //if (!UnitsOnLeftWall() && !UnitsOnRightWall())
-            //{
-            //    footColider.enabled = false;
-            //}
-            //else
-            //{
-            //    footColider.enabled = true;
-            //}
             SetJumpPower(jumpingJumpPower);
             Speed = GetSpeed("Jump");
+            isOnFloor = false;
         }
+    }
+    public void SetAngle(GameObject obj,Vector3 point)
+    {
+        float z = 180 - Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x) * 180 / Mathf.PI;
+       if((z <= 90 && z >= 0) || (z > 270 && z < 360))
+        {
+            SetMotionDir(true);
+            obj.transform.localScale = new Vector3(1, 1, 0);
+        }
+        else
+        {
+            SetMotionDir(false);
+            obj.transform.localScale=new Vector3(-1, -1, 0);
+        }
+        obj.transform.rotation=Quaternion.Euler(new Vector3(0, 0, z ));
+        //Debug.Log(180-Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x)*180/Mathf.PI) ;
     }
 }
