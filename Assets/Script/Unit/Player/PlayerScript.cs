@@ -28,7 +28,7 @@ public class PlayerScript : UnitScript
     // Update is called once per frame
     void Update()
     {
-     
+
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         SetSideWallGravity(isWall);
         OnFloorEvent();
@@ -36,7 +36,7 @@ public class PlayerScript : UnitScript
 
     private void FixedUpdate()
     {
-  
+
         MovingLeft(isLeftMoveInput);
         MovingRight(isRightMoveInput);
     }
@@ -67,7 +67,7 @@ public class PlayerScript : UnitScript
         if (!UnitsOnLeftWall())
         {
             //¿ÞÂÊ ÀÌµ¿
-            motionAnimation.SetBool("Moving",true);
+            motionAnimation.SetBool("Moving", true);
             isWall = 0;
             isLeftMoveInput = false;
             rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
@@ -81,9 +81,9 @@ public class PlayerScript : UnitScript
                 isWall = 1;
             }
             rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
-            jumpCnt = maxJump-1;
+            jumpCnt = maxJump - 1;
         }
-        
+
     }
     public void MovingRight(bool isRighting)
     {
@@ -113,10 +113,11 @@ public class PlayerScript : UnitScript
 
     public void Jump()
     {
-            jumpCnt++;
-            isJumpInput = true;
-            footColider.enabled = false;
-            rigid.velocity = new Vector2(rigid.velocity.x, GetJumpPower());
+        jumpCnt++;
+        isJumpInput = true;
+        footColider.enabled = false;
+        rigid.velocity = new Vector2(rigid.velocity.x, GetJumpPower());
+        motionAnimation.SetTrigger("Jump");
     }
     protected override void MoveUp()
     {
@@ -181,7 +182,6 @@ public class PlayerScript : UnitScript
             SetJumpPower(walkingJumpPower);
             Speed = GetSpeed("Walk");
             isOnFloor = true;
-            
         }
         else
         {
@@ -189,11 +189,12 @@ public class PlayerScript : UnitScript
             Speed = GetSpeed("Jump");
             isOnFloor = false;
         }
+        motionAnimation.SetBool("OnGrounding", isOnFloor);
     }
-    public void SetAngle(GameObject obj,Vector3 point)
+    public void SetAngle(GameObject obj, Vector3 point)
     {
         float z = 180 - Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x) * 180 / Mathf.PI;
-       if((z <= 90 && z >= 0) || (z > 270 && z < 360))
+        if ((z <= 90 && z >= 0) || (z > 270 && z < 360))
         {
             SetMotionDir(true);
             obj.transform.localScale = new Vector3(1, 1, 0);
@@ -201,9 +202,9 @@ public class PlayerScript : UnitScript
         else
         {
             SetMotionDir(false);
-            obj.transform.localScale=new Vector3(-1, -1, 0);
+            obj.transform.localScale = new Vector3(-1, -1, 0);
         }
-        obj.transform.rotation=Quaternion.Euler(new Vector3(0, 0, z ));
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, z));
         //Debug.Log(180-Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x)*180/Mathf.PI) ;
     }
 }
