@@ -784,11 +784,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1260056702 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4156838181993732813, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-  m_PrefabInstance: {fileID: 4195782186044207784}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1292877222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,10 +1808,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4195782186375471025, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-      propertyPath: motionAnimation
-      value: 
-      objectReference: {fileID: 1260056702}
+    - target: {fileID: 476871556275646298, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 4195782186375471037, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1864,6 +1859,14 @@ PrefabInstance:
     - target: {fileID: 4195782186375471038, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476835992234728067, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_Name
+      value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942498456710248457, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.124
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
