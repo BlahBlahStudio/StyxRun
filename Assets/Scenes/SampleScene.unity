@@ -1808,9 +1808,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 398585114, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_Size.x
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 398585114, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 4195782186375471025, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-      propertyPath: groundChkSize.y
-      value: 0.83
+      propertyPath: leftWallChkPos.x
+      value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4195782186375471025, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: rightWallChkPos.x
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 4195782186375471037, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
       propertyPath: m_Name
@@ -1860,9 +1872,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6524326246761095279, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.085
+    - target: {fileID: 5476835992234728067, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
+      propertyPath: m_Name
+      value: Sword
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 625304f62f241cf48b46d40ccef8914c, type: 3}
