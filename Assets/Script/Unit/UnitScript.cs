@@ -122,8 +122,8 @@ public class UnitScript : MonoBehaviour
         if (wall != null)
         {
             var sp = wall.gameObject.GetComponent<SpriteRenderer>();
-            Debug.DrawRay(new Vector3(wall.transform.position.x+(sp.bounds.size.x/2), wall.transform.position.y, 0), Vector3.left,Color.green);
-            if(transform.position.x < wall.transform.position.x + (sp.bounds.size.x / 2) && transform.position.x > wall.transform.position.x - (sp.bounds.size.x / 2) )
+            Debug.DrawRay(new Vector3(wall.transform.position.x + ((sp.bounds.size.x / 2) + rightWallChkPos.x), wall.transform.position.y, 0), Vector3.left,Color.green);
+            if(transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2) + rightWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x))
             {
                 return false;
             }
@@ -137,8 +137,8 @@ public class UnitScript : MonoBehaviour
         if (wall != null)
         {
             var sp = wall.gameObject.GetComponent<SpriteRenderer>();
-            Debug.DrawRay(new Vector3(wall.transform.position.x - (sp.bounds.size.x / 2), wall.transform.position.y, 0), Vector3.right, Color.green);
-            if (transform.position.x < wall.transform.position.x + (sp.bounds.size.x / 2) && transform.position.x > wall.transform.position.x - (sp.bounds.size.x / 2) )
+            Debug.DrawRay(new Vector3(wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x), wall.transform.position.y, 0), Vector3.right, Color.green);
+            if (transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2)+ rightWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x))
             {
                 return false;
             }

@@ -113,12 +113,10 @@ public class PlayerScript : UnitScript
                     motionAnimation.SetBool("Moving", false);
                     isWall = 2;
                 }
-
                 jumpCnt = 0;
             }
         }
     }
-
     public void Jump()
     {
         jumpCnt++;
@@ -177,6 +175,7 @@ public class PlayerScript : UnitScript
         if (isWall == 0)
         {
             attackAnimation.SetBool("Attack", true);
+            
         }
         else
         {
