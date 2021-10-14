@@ -13,8 +13,18 @@ public class WeaponAttackScript : MonoBehaviour
         var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
         pos.x += Mathf.Cos(degree) * rad;
         pos.y += Mathf.Sin(degree) * rad;
+        
+        var obj=Instantiate(attackEffect, pos, Quaternion.Euler(player.hand.transform.rotation.eulerAngles));
+        if (player.dir == MyDir.left)
+        {
+            var tmp = obj.transform.localScale;
+            tmp.y *= -1;
+            obj.transform.localScale = tmp;
+        }
+        else
+        {
 
-        Instantiate(attackEffect, pos, Quaternion.Euler(player.hand.transform.rotation.eulerAngles));
+        }
     }
     private void OnDrawGizmos()
     {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9184499725929150540}
   - component: {fileID: 3978969336470999409}
   - component: {fileID: 6822492546319141763}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: SwordPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,6 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4195782186375471025}
   attackEffect: {fileID: 3565190773279187967, guid: ba0f07e5d657bae4ca3e5ab6eafcdb16, type: 3}
+  rad: 0.8
 --- !u!1 &16203067662904822
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +80,7 @@ GameObject:
   - component: {fileID: 2797196028976140893}
   - component: {fileID: 4156838181993732813}
   - component: {fileID: 1081685472929683010}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Motin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +183,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3249316317538176968}
-  m_Layer: 10
+  - component: {fileID: 1035812523}
+  m_Layer: 9
   m_Name: HeadPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,6 +206,25 @@ Transform:
   m_Father: {fileID: 2797196028976140893}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1035812523
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33586800044528857}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 418f65b29362d3441aa22f9c16531b0b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1288639102605992233
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476871556275646298}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1886849075458286797}
   - component: {fileID: 6083853218709629102}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\uBAB8"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,9 +351,9 @@ GameObject:
   - component: {fileID: 4195782186375471025}
   - component: {fileID: 1277416402106175745}
   - component: {fileID: 398585114}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f57e8e9586880724993e7b77631199fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dir: 0
   motion: {fileID: 16203067662904822}
   motionSize: {x: 0, y: 0, z: 0}
   jumpPower: 0
@@ -406,6 +428,7 @@ MonoBehaviour:
   wallChkSize: {x: 0.22, y: 0.2, z: 0}
   hand: {fileID: 1288639102605992233}
   attackAnimation: {fileID: 3978969336470999409}
+  headAnimation: {fileID: 1035812523}
   motionAnimation: {fileID: 4156838181993732813}
 --- !u!70 &1277416402106175745
 CapsuleCollider2D:
@@ -436,8 +459,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.91}
-  m_Size: {x: 0.37, y: 0.18}
+  m_Offset: {x: -0.02, y: -0.91}
+  m_Size: {x: 0.34, y: 0.18}
   m_Direction: 1
 --- !u!1 &4451469553520846017
 GameObject:
@@ -449,7 +472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6524326246761095279}
   - component: {fileID: 8890515282919154314}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\uC624\uB978\uD314"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2391776044900514490}
   - component: {fileID: 7121939853212110793}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\uC67C\uD314"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -613,7 +636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8942498456710248457}
   - component: {fileID: 4614679418118199674}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\uBA38\uB9AC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -695,8 +718,8 @@ GameObject:
   m_Component:
   - component: {fileID: 550593059668674460}
   - component: {fileID: 4040549993544778444}
-  m_Layer: 10
-  m_Name: Square
+  m_Layer: 9
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

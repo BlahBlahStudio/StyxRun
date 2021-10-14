@@ -15,9 +15,9 @@ public class PlayerScript : UnitScript
     [Header("공격 관련")]
     public GameObject hand;
     public Animator attackAnimation;
+    public Animator headAnimation;
 
-    [Header("모션 이동 관련")]
-    public Animator motionAnimation;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,17 +26,14 @@ public class PlayerScript : UnitScript
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-
+        base.Update();
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         SetSideWallGravity(isWall);
-        OnFloorEvent();
     }
-
     private void FixedUpdate()
     {
-
         MovingLeft(isLeftMoveInput);
         MovingRight(isRightMoveInput);
     }
@@ -51,7 +48,7 @@ public class PlayerScript : UnitScript
         }
         else
         {
-            attackAnimation.SetBool("Attack", false);
+            AttackCancel();
             motionAnimation.SetBool("Climbing", true);
             if (sideWallGravity > 0.5f)
             {
@@ -176,7 +173,7 @@ public class PlayerScript : UnitScript
         if (isWall == 0)
         {
             attackAnimation.SetBool("Attack", true);
-            
+            headAnimation.SetBool("Attack", true);
         }
         else
         {
@@ -186,6 +183,7 @@ public class PlayerScript : UnitScript
     protected override void AttackCancel()
     {
         attackAnimation.SetBool("Attack", false);
+        headAnimation.SetBool("Attack", false);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

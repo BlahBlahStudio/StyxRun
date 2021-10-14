@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum MyDir
+{
+    left, right
+}
 public class UnitScript : MonoBehaviour
 {
+    public MyDir dir;
     protected Rigidbody2D rigid;
     private float _speed;
     public float Speed
@@ -42,13 +46,21 @@ public class UnitScript : MonoBehaviour
     public Vector3 leftWallChkPos;
     public Vector3 rightWallChkPos;
     public Vector3 wallChkSize;
+
+
+    protected Animator motionAnimation;
     // Start is called before the first frame update
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        motionAnimation = motion.GetComponent<Animator>();
         motionSize = motion.transform.localScale;
     }
     // Update is called once per frame
+    public virtual void Update()
+    {
+        OnFloorEvent();
+    }
     public void SetMoveKeys()
     {
         SetKey("A", MoveLeft,MoveLeftCancel);
@@ -63,11 +75,11 @@ public class UnitScript : MonoBehaviour
     }
     protected virtual void Attack()
     {
-
+        motionAnimation.SetBool("Attack", true);
     }
     protected virtual void AttackCancel()
     {
-
+        motionAnimation.SetBool("Attack", false);
     }
     protected virtual void MoveUp()
     {
@@ -110,9 +122,11 @@ public class UnitScript : MonoBehaviour
         if (dir)
         {
             motion.transform.localScale = motionSize;
+            this.dir = MyDir.right;
         }
         else
         {
+            this.dir = MyDir.left;
             motion.transform.localScale = new Vector3(-motionSize.x, motionSize.y, motionSize.z);
         }
     }
