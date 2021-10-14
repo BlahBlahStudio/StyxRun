@@ -51,6 +51,7 @@ public class PlayerScript : UnitScript
         }
         else
         {
+            attackAnimation.SetBool("Attack", false);
             motionAnimation.SetBool("Climbing", true);
             if (sideWallGravity > 0.5f)
             {

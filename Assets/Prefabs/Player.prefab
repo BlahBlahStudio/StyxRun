@@ -401,8 +401,8 @@ MonoBehaviour:
     m_Bits: 4096
   groundChkPos: {x: 0, y: -1.02, z: 0}
   groundChkSize: {x: 0.28, y: 1.16, z: 0}
-  leftWallChkPos: {x: -0.15, y: -0.87, z: 0}
-  rightWallChkPos: {x: 0.15, y: -0.87, z: 0}
+  leftWallChkPos: {x: -0.12, y: -0.87, z: 0}
+  rightWallChkPos: {x: 0.12, y: -0.87, z: 0}
   wallChkSize: {x: 0.22, y: 0.2, z: 0}
   hand: {fileID: 1288639102605992233}
   attackAnimation: {fileID: 3978969336470999409}
@@ -421,7 +421,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0006542206, y: -0.47125977}
-  m_Size: {x: 0.63449097, y: 1.084226}
+  m_Size: {x: 0.51, y: 1.084226}
   m_Direction: 0
 --- !u!70 &398585114
 CapsuleCollider2D:
@@ -436,8 +436,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0017378468, y: -0.91}
-  m_Size: {x: 0.46, y: 0.18}
+  m_Offset: {x: 0, y: -0.91}
+  m_Size: {x: 0.37, y: 0.18}
   m_Direction: 1
 --- !u!1 &4451469553520846017
 GameObject:
