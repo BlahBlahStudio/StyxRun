@@ -28,7 +28,7 @@ public class PlayerScript : UnitScript
     // Update is called once per frame
     void Update()
     {
-     
+
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         SetSideWallGravity(isWall);
         OnFloorEvent();
@@ -36,20 +36,23 @@ public class PlayerScript : UnitScript
 
     private void FixedUpdate()
     {
-  
+
         MovingLeft(isLeftMoveInput);
         MovingRight(isRightMoveInput);
     }
     #region 이동
     private void SetSideWallGravity(int isWall)
     {
-        if (isWall == 0)
+        if (isWall == 0 || (isRightMoveInput==false && isLeftMoveInput==false))
         {
             //어떠한 벽에도 붙지 않았을때
             sideWallGravity = 1;
+            motionAnimation.SetBool("Climbing", false);
         }
         else
         {
+            attackAnimation.SetBool("Attack", false);
+            motionAnimation.SetBool("Climbing", true);
             if (sideWallGravity > 0.5f)
             {
                 sideWallGravity -= sideWallGravityPer * Time.deltaTime;
@@ -67,23 +70,26 @@ public class PlayerScript : UnitScript
         if (!UnitsOnLeftWall())
         {
             //왼쪽 이동
-            motionAnimation.SetBool("Moving",true);
+            motionAnimation.SetBool("Moving", true);
             isWall = 0;
             isLeftMoveInput = false;
             rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
         }
         else
         {
-            motionAnimation.SetBool("Moving", false);
-            //벽에 붙었을때 왼쪽 이동
-            if (!isOnFloor)
+            rigid.velocity = new Vector2(0, rigid.velocity.y * sideWallGravity);
+            if (rigid.velocity.y < 0)
             {
-                isWall = 1;
+                //벽에 붙었을때 왼쪽 이동
+                if (!isOnFloor)
+                {
+                    motionAnimation.SetBool("Moving", false);
+                    isWall = 1;
+                }
+                jumpCnt = 0;
             }
-            rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
-            jumpCnt = maxJump-1;
         }
-        
+
     }
     public void MovingRight(bool isRighting)
     {
@@ -100,23 +106,26 @@ public class PlayerScript : UnitScript
         }
         else
         {
-            motionAnimation.SetBool("Moving", false);
-            if (!isOnFloor)
-            {
-                isWall = 2;
+            rigid.velocity = new Vector2(0, rigid.velocity.y * sideWallGravity);
+            if (rigid.velocity.y < 0)
+            {  
+                if (!isOnFloor)
+                {
+                    motionAnimation.SetBool("Moving", false);
+                    isWall = 2;
+                }
+                jumpCnt = 0;
             }
-
-            rigid.velocity = new Vector2(0, rigid.velocity.y < 0 ? rigid.velocity.y * sideWallGravity : rigid.velocity.y);
-            jumpCnt = maxJump - 1;
         }
     }
-
     public void Jump()
     {
-            jumpCnt++;
-            isJumpInput = true;
-            footColider.enabled = false;
-            rigid.velocity = new Vector2(rigid.velocity.x, GetJumpPower());
+        jumpCnt++;
+        isJumpInput = true;
+        footColider.enabled = false;
+        sideWallGravity = 1;
+        isWall = 0;
+        rigid.velocity = new Vector2(rigid.velocity.x, GetJumpPower());
     }
     protected override void MoveUp()
     {
@@ -164,13 +173,27 @@ public class PlayerScript : UnitScript
 
     protected override void Attack()
     {
-        attackAnimation.SetBool("Attack", true);
+        if (isWall == 0)
+        {
+            attackAnimation.SetBool("Attack", true);
+            
+        }
+        else
+        {
+            AttackCancel();
+        }
     }
     protected override void AttackCancel()
     {
         attackAnimation.SetBool("Attack", false);
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            isOnFloor = true;
+        }
+    }
     protected override void OnFloorEvent()
     {
         if (UnitIsOnFloor())
@@ -180,8 +203,7 @@ public class PlayerScript : UnitScript
             isWall = 0;
             SetJumpPower(walkingJumpPower);
             Speed = GetSpeed("Walk");
-            isOnFloor = true;
-            
+
         }
         else
         {
@@ -189,11 +211,26 @@ public class PlayerScript : UnitScript
             Speed = GetSpeed("Jump");
             isOnFloor = false;
         }
+        motionAnimation.SetBool("OnGrounding", isOnFloor);
     }
-    public void SetAngle(GameObject obj,Vector3 point)
+    public void SetAngle(GameObject obj, Vector3 point)
     {
+        if (isWall != 0)
+        {
+            if (isWall == 1)
+            {
+                SetMotionDir(true);
+            }
+            if (isWall == 2)
+            {
+                SetMotionDir(false);
+            }
+            obj.transform.localScale = new Vector3(1, 1, 0);
+            obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            return;
+        }
         float z = 180 - Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x) * 180 / Mathf.PI;
-       if((z <= 90 && z >= 0) || (z > 270 && z < 360))
+        if ((z <= 90 && z >= 0) || (z > 270 && z < 360))
         {
             SetMotionDir(true);
             obj.transform.localScale = new Vector3(1, 1, 0);
@@ -201,9 +238,9 @@ public class PlayerScript : UnitScript
         else
         {
             SetMotionDir(false);
-            obj.transform.localScale=new Vector3(-1, -1, 0);
+            obj.transform.localScale = new Vector3(-1, -1, 0);
         }
-        obj.transform.rotation=Quaternion.Euler(new Vector3(0, 0, z ));
+        obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, z));
         //Debug.Log(180-Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x)*180/Mathf.PI) ;
     }
 }
