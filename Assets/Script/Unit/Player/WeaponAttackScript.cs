@@ -25,9 +25,28 @@ public class WeaponAttackScript : MonoBehaviour
         {
 
         }
+
+    }
+    public void Attack()
+    {
+        Vector3 pos = player.hand.transform.position;
+        var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+        pos.x += Mathf.Cos(degree) * player.attackPos;
+        pos.y += Mathf.Sin(degree) * player.attackPos;
+        var units= Physics2D.OverlapCircleAll(pos, player.attackSize,player.attackTargetLayer);
+        foreach(var unit in units)
+        {
+            unit.GetComponent<UnitScript>().UnitHit();
+        }
     }
     private void OnDrawGizmos()
     {
+        Vector3 pos = player.hand.transform.position;
+        var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+        pos.x += Mathf.Cos(degree) * player.attackPos;
+        pos.y += Mathf.Sin(degree) * player.attackPos;
+        Gizmos.color =new Color(0, 0, 1,0.3f);
+        Gizmos.DrawSphere(pos, player.attackSize);
 
     }
 }

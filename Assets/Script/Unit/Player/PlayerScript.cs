@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerScript : UnitScript
 {
-    bool isLeftMoveInput;
-    bool isRightMoveInput;
     bool isJumpInput;
     int isWall; // 1: ¿Þº® 2:¿À¸¥º® 
     int jumpCnt;
@@ -16,7 +14,9 @@ public class PlayerScript : UnitScript
     public GameObject hand;
     public Animator attackAnimation;
     public Animator headAnimation;
-
+    public float attackSize;
+    public float attackPos;
+    public LayerMask attackTargetLayer;
 
 
     // Start is called before the first frame update
@@ -197,10 +197,13 @@ public class PlayerScript : UnitScript
         if (UnitIsOnFloor())
         {
             footColider.enabled = true;
-            jumpCnt = 0;
-            isWall = 0;
-            SetJumpPower(walkingJumpPower);
-            Speed = GetSpeed("Walk");
+            if (rigid.velocity.y <= 0)
+            {
+                jumpCnt = 0;
+                isWall = 0;
+                SetJumpPower(walkingJumpPower);
+                Speed = GetSpeed("Walk");
+            }
 
         }
         else
