@@ -408,7 +408,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: 0
   motion: {fileID: 16203067662904822}
-  motionSize: {x: 0, y: 0, z: 0}
+  mhp: 1000
+  hp: 1000
+  damage: 25
   jumpPower: 0
   jumpingJumpPower: 12
   walkingJumpPower: 13
@@ -417,19 +419,25 @@ MonoBehaviour:
   setSpeed: 5
   walkingSpeed: 1
   jumpingSpeed: 0.8
+  isLeftMoveInput: 0
+  isRightMoveInput: 0
   footColider: {fileID: 398585114}
   floorLayer:
     serializedVersion: 2
     m_Bits: 4096
   groundChkPos: {x: 0, y: -1.02, z: 0}
   groundChkSize: {x: 0.28, y: 1.16, z: 0}
-  leftWallChkPos: {x: -0.12, y: -0.87, z: 0}
-  rightWallChkPos: {x: 0.12, y: -0.87, z: 0}
-  wallChkSize: {x: 0.22, y: 0.2, z: 0}
+  sideWallChkPos: {x: 0.21, y: -0.86, z: 0}
+  sideWallChkSize: {x: 0.1, y: 0.2, z: 0}
+  motionAnimation: {fileID: 4156838181993732813}
   hand: {fileID: 1288639102605992233}
   attackAnimation: {fileID: 3978969336470999409}
   headAnimation: {fileID: 1035812523}
-  motionAnimation: {fileID: 4156838181993732813}
+  attackSize: 0
+  attackPos: 0
+  attackTargetLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!70 &1277416402106175745
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

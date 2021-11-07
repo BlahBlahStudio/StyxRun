@@ -11,13 +11,13 @@ public class IdleState : FSM<MonsterScript>
     }
     public override void Begin()
     {
-        Debug.Log("몬스터 생성 숨쉬는중 ");
+        //Debug.Log("몬스터 생성 숨쉬는중 ");
         obj.motionAnimation.SetBool("Idle", true);
     }
 
     public override void Exit()
     {
-        Debug.Log("몬스터 숨쉬는중 끝");
+        //Debug.Log("몬스터 숨쉬는중 끝");
         obj.motionAnimation.SetBool("Idle", false);
 
     }

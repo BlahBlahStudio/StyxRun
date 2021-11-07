@@ -34,14 +34,14 @@ public class MonsterScript : UnitScript
         states.Add((int)MyState.Die, new DieState(this));
         fsmMachine.SetState(states[(int)MyState.Idle]);
     }
-    void Start()
+    protected virtual void Start()
     {
         SetAICommand(AIController.AIBehaviors.Idle, Idle, null);
         SetAICommand(AIController.AIBehaviors.MoveLeft, MoveLeft, MoveLeftCancel);
         SetAICommand(AIController.AIBehaviors.MoveRight, MoveRight, MoveRightCancel);
         SetAICommand(AIController.AIBehaviors.Attack, Attack, AttackCancel);
-
-
+        SetAICommand(AIController.AIBehaviors.Find, Find,null);
+        SetAICommand(AIController.AIBehaviors.FindAndAttack, FindAndAttack, AttackCancel);
         //SetKey("C", MoveLeft, MoveLeftCancel);
         //SetKey("V", MoveRight, MoveRightCancel);
         //SetKey("B", Attack, AttackCancel);
@@ -51,12 +51,20 @@ public class MonsterScript : UnitScript
     }
 
     // Update is called once per frame
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
         fsmMachine.Run();
     }
-
+    public void Find()
+    {
+       SetMotionDir(FindUnitDirection(GameManager.Instance.player.gameObject));
+    }
+    public void FindAndAttack()
+    {
+        Find();
+        Attack();
+    }
     protected override void Idle()
     {
         base.Idle();
@@ -64,6 +72,7 @@ public class MonsterScript : UnitScript
     }
     public void MoveLeftAction()
     {
+        SetMotionDir(MyDir.left);
         if (!UnitsOnLeftWall())
         {
             rigid.velocity = new Vector2(-Speed, rigid.velocity.y);
@@ -75,6 +84,7 @@ public class MonsterScript : UnitScript
     }
     public void MoveRightAction()
     {
+        SetMotionDir(MyDir.right);
         if (!UnitsOnRightWall())
         {
             rigid.velocity = new Vector2(Speed, rigid.velocity.y);
@@ -98,11 +108,12 @@ public class MonsterScript : UnitScript
         isAttack = false;
     }
 
-    public override void UnitHit()
+    public override void UnitHit(float damage)
     {
-        base.UnitHit();
+        base.UnitHit(damage);
         if (!motionAnimation.GetCurrentAnimatorStateInfo(0).IsName("Die"))
         {
+            hp -= damage;
             fsmMachine.Change(states[(int)MyState.Hit]);
         }
     }
@@ -118,6 +129,7 @@ public class MonsterScript : UnitScript
     public override void UnitHitEvent()
     {
         base.UnitHitEvent();
+
     }
     protected override void OnFloorEvent()
     {
@@ -133,6 +145,10 @@ public class MonsterScript : UnitScript
             SetJumpPower(jumpingJumpPower);
             Speed = GetSpeed("Jump");
         }
+    }
+    public virtual void AttackEvent()
+    {
+
     }
     public override int InAttackRange()
     {
@@ -155,13 +171,15 @@ public class MonsterScript : UnitScript
         if (myFloor != null)
         {
             SpriteRenderer floorSp =myFloor.GetComponent<SpriteRenderer>();
-            if (myFloor.transform.position.x - (floorSp.bounds.size.x / 2) > transform.position.x)
+            if (myFloor.transform.position.x - ((floorSp.bounds.size.x / 2)*0.95) > transform.position.x)
             {
                 return false;
             }
         }
+
         if (isHit && GameManager.Instance.player.transform.position.x > transform.position.x)
         {
+            //공격 받은 상태라면 추격을 위해
             return false;
         }
         return true;
@@ -171,13 +189,14 @@ public class MonsterScript : UnitScript
         if (myFloor != null)
         {
             SpriteRenderer floorSp =myFloor.GetComponent<SpriteRenderer>();
-            if (myFloor.transform.position.x + (floorSp.bounds.size.x / 2) < transform.position.x)
+            if (myFloor.transform.position.x + ((floorSp.bounds.size.x / 2) * 0.95) < transform.position.x)
             {
                 return false;
             }
         }
         if (isHit && GameManager.Instance.player.transform.position.x < transform.position.x)
         {
+            //공격 받은 상태라면 추격을 위해
             return false;
         }
         return true;

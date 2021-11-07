@@ -11,13 +11,13 @@ public class WalkState : FSM<MonsterScript>
     }
     public override void Begin()
     {
-        Debug.Log("몬스터 움직임 시작");
+        //Debug.Log("몬스터 움직임 시작");
         obj.motionAnimation.SetBool("Walk", true);
     }
 
     public override void Exit()
     {
-        Debug.Log("몬스터 움직임 종료");
+        //Debug.Log("몬스터 움직임 종료");
         obj.motionAnimation.SetBool("Walk", false);
         obj.MoveEndAction();
     }

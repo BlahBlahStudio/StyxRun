@@ -23,37 +23,42 @@ public class UnitScript : MonoBehaviour
     }
     [Header("오브젝트 설정")]
     public GameObject motion;
-    public Vector3 motionSize;
-    public Vector3 startPos;
+    protected Vector3 motionSize;
+    protected Vector3 startPos;
+
+    [Header("유닛 옵션")]
+    public float mhp;
+    public float hp;
+    public float damage;
+
 
     [SerializeField]
     [Header("점프 관련")]
-    private float jumpPower;
-    public float jumpingJumpPower;
-    public float walkingJumpPower;
-    public float sideWallGravityPer;
-    public int maxJump;
+    private float jumpPower; //점프력
+    public float jumpingJumpPower; //공중에서 점프력
+    public float walkingJumpPower;  //바닥에서 점프력
+    public float sideWallGravityPer; //벽타기 할때 작용될 중력
+    public int maxJump; //최대 점프 횟수
 
     [Header("속도 관련")]
-    public float setSpeed;
-    public float walkingSpeed;
-    public float jumpingSpeed;
+    public float setSpeed; // 이동 속도
+    public float walkingSpeed; //바닥 이동 속도 비율
+    public float jumpingSpeed; //공중 이동 속도 비율
 
     [Header("이동 관련")]
     public bool isLeftMoveInput;
     public bool isRightMoveInput;
 
     [Header("충돌 및 벽")]
-    public Collider2D footColider;
-    public LayerMask floorLayer;
-    public GameObject myFloor;
+    public Collider2D footColider; // 실제 바닥체크 콜라이더
+    public LayerMask floorLayer; //바닥들의 레이어
+    protected GameObject myFloor; //현재 내가 딛고 있는 바닥
     public Vector3 groundChkPos;
     public Vector3 groundChkSize;
-    public Vector3 leftWallChkPos;
-    public Vector3 rightWallChkPos;
-    public Vector3 wallChkSize;
+    public Vector3 sideWallChkPos;
+    public Vector3 sideWallChkSize;
 
-    [Header("유닛 애니메이션")]
+    [HideInInspector]
     public Animator motionAnimation;
 
     [Header("커멘드 관련")]
@@ -68,7 +73,7 @@ public class UnitScript : MonoBehaviour
         startPos = transform.position;
     }
     // Update is called once per frame
-    public virtual void Update()
+    protected virtual void Update()
     {
         OnFloorEvent();
 
@@ -87,7 +92,6 @@ public class UnitScript : MonoBehaviour
     }
     public void SetAICommand(AIController.AIBehaviors key, Command.Msg msg, Command.Msg unMsg = null)
     {
-
         Command cmd = new Command(key.ToString(), msg, unMsg, gameObject);
         cmdList.Add(key, cmd);
     }
@@ -101,7 +105,7 @@ public class UnitScript : MonoBehaviour
     }
     protected virtual void MoveUp()
     {
-        Debug.Log(gameObject.name + " Up");
+        //Debug.Log(gameObject.name + " Up");
     }
     protected virtual void Idle()
     {
@@ -110,15 +114,15 @@ public class UnitScript : MonoBehaviour
     }
     protected virtual void MoveUpCancel()
     {
-        Debug.Log(gameObject.name + " Up InActive");
+        //Debug.Log(gameObject.name + " Up InActive");
     }
     protected virtual void MoveDown()
     {
-        Debug.Log(gameObject.name + " Down");
+       // Debug.Log(gameObject.name + " Down");
     }
     protected virtual void MoveDownCancel()
     {
-        Debug.Log(gameObject.name + " Down InActive");
+        //Debug.Log(gameObject.name + " Down InActive");
     }
     protected virtual void MoveLeft()
     {
@@ -128,33 +132,44 @@ public class UnitScript : MonoBehaviour
     protected virtual void MoveLeftCancel()
     {
         isLeftMoveInput = false;
-        Debug.Log(gameObject.name + " Left InActive");
+        //Debug.Log(gameObject.name + " Left InActive");
     }
     protected virtual void MoveRight()
     {
         isRightMoveInput = true;
-        Debug.Log(gameObject.name + " Right");
+        //Debug.Log(gameObject.name + " Right");
     }
     protected virtual void MoveRightCancel()
     {
         isRightMoveInput = false;
-        Debug.Log(gameObject.name + " Right InActive");
+        //Debug.Log(gameObject.name + " Right InActive");
     }
-    public virtual void UnitHit()
+    public virtual void UnitHit(float damage)
     {
-        Debug.Log("Unit Hit Event Enter");
+        //Debug.Log("Unit Hit Event Enter, Dmage:"+damage);
     }
     public virtual void UnitHitEvent()
     {
-        Debug.Log("Unit is Hit So , SomeThing Event");
+        //Debug.Log("Unit is Hit So , SomeThing Event");
     }
     protected virtual void UnitDie()
     {
-        Debug.Log("Unit Die Event Enter");
+        //Debug.Log("Unit Die Event Enter");
     }
     public virtual void UnitDieEvent()
     {
-        Debug.Log("Unit is Die So , SomeThing Event");
+       // Debug.Log("Unit is Die So , SomeThing Event");
+    }
+    public MyDir FindUnitDirection(GameObject obj)
+    {
+        if (transform.position.x < obj.transform.position.x)
+        {
+            return MyDir.right;
+        }
+        else
+        {
+            return MyDir.left;
+        }
     }
     protected virtual void OnFloorEvent()
     {
@@ -172,27 +187,27 @@ public class UnitScript : MonoBehaviour
     {
         return true;
     }
-    protected virtual void SetMotionDir(bool dir)
+    protected virtual void SetMotionDir(MyDir dir)
     {
-        if (dir)
+        this.dir =dir;
+
+        if (dir==MyDir.right)
         {
             motion.transform.localScale = motionSize;
-            this.dir = MyDir.right;
         }
-        else
+        else if (dir == MyDir.left)
         {
-            this.dir = MyDir.left;
             motion.transform.localScale = new Vector3(-motionSize.x, motionSize.y, motionSize.z);
         }
     }
     public bool UnitsOnLeftWall()
     {
-        var wall = Physics2D.OverlapBox(transform.position + leftWallChkPos, wallChkSize, 0f, floorLayer);
+        var wall = Physics2D.OverlapBox(transform.position + new Vector3(-sideWallChkPos.x,sideWallChkPos.y), sideWallChkSize, 0f, floorLayer);
         if (wall != null)
         {
             var sp = wall.gameObject.GetComponent<SpriteRenderer>();
-            Debug.DrawRay(new Vector3(wall.transform.position.x + ((sp.bounds.size.x / 2) + rightWallChkPos.x), wall.transform.position.y, 0), Vector3.left, Color.green);
-            if (transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2) + rightWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x))
+            Debug.DrawRay(new Vector3(wall.transform.position.x + ((sp.bounds.size.x / 2) + sideWallChkPos.x), wall.transform.position.y, 0), Vector3.left, Color.green);
+            if (transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2) + sideWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + sideWallChkPos.x))
             {
                 return false;
             }
@@ -202,12 +217,12 @@ public class UnitScript : MonoBehaviour
     }
     public bool UnitsOnRightWall()
     {
-        var wall = Physics2D.OverlapBox(transform.position + rightWallChkPos, wallChkSize, 0f, floorLayer);
+        var wall = Physics2D.OverlapBox(transform.position + sideWallChkPos, sideWallChkSize, 0f, floorLayer);
         if (wall != null)
         {
             var sp = wall.gameObject.GetComponent<SpriteRenderer>();
-            Debug.DrawRay(new Vector3(wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x), wall.transform.position.y, 0), Vector3.right, Color.green);
-            if (transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2) + rightWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + rightWallChkPos.x))
+            Debug.DrawRay(new Vector3(wall.transform.position.x - ((sp.bounds.size.x / 2) + sideWallChkPos.x), wall.transform.position.y, 0), Vector3.right, Color.green);
+            if (transform.position.x < wall.transform.position.x + ((sp.bounds.size.x / 2) + sideWallChkPos.x) && transform.position.x > wall.transform.position.x - ((sp.bounds.size.x / 2) + sideWallChkPos.x))
             {
                 return false;
             }
@@ -280,7 +295,7 @@ public class UnitScript : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.3f);
         Gizmos.DrawCube(transform.position + groundChkPos, groundChkSize);
         Gizmos.color = new Color(0, 1, 0, 0.3f);
-        Gizmos.DrawCube(transform.position + leftWallChkPos, wallChkSize);
-        Gizmos.DrawCube(transform.position + rightWallChkPos, wallChkSize);
+        Gizmos.DrawCube(transform.position + sideWallChkPos, sideWallChkSize);
+        Gizmos.DrawCube(transform.position + new Vector3(-sideWallChkPos.x,sideWallChkPos.y), sideWallChkSize);
     }
 }

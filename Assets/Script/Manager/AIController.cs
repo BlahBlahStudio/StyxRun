@@ -10,7 +10,7 @@ public class AIController : MonoBehaviour
     public delegate bool Require();
     public enum AIBehaviors
     {
-        Idle, MoveLeft, MoveRight, Attack
+        Idle, MoveLeft, MoveRight, Attack,Find,FindAndAttack
     }
 
     // Update is called once per frame
@@ -47,25 +47,37 @@ public class AIController : MonoBehaviour
                 }
                 else if (type == 1 || type == -1)
                 {                    
-                    switch (Random.Range(0, 8))
+                    switch (Random.Range(0, 10))
                     {
                         case 0:
                             req.Add(obj.InFloorRangeLeft);
-                            time = Random.Range(0.2f, 0.5f);
+                            time = Random.Range(0.5f, 1f);
                             state = StartCoroutine(AIBehavior(time, AIBehaviors.MoveLeft, req));
                             break;
                         case 1:
                             req.Add(obj.InFloorRangeRight);
-                            time = Random.Range(0.2f, 0.5f);
+                            time = Random.Range(0.5f, 1f);
                             state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.MoveRight, req));
                             break;
                         case 2:
-                            time = Random.Range(0.2f, 0.4f);
+                            time = Random.Range(0.2f, 0.7f);
                             state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.Idle, req));
+                            break;
+                        case 3:
+                            time = Random.Range(0.2f, 1f);
+                            state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.Find, req));
+                            break;
+                        case 4:
+                            time = Random.Range(0.2f, 0.4f);
+                            state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.FindAndAttack, req));
+                            break;
+                        case 5:
+                            time = Random.Range(0.2f, 0.4f);
+                            state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.FindAndAttack, req));
                             break;
                         default:
                             time = Random.Range(0.1f, 0.5f);
-                            state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.Attack, req));
+                            state = StartCoroutine(AIBehavior(Random.Range(1, 3), AIBehaviors.FindAndAttack, req));
                             break;
                             //state = StartCoroutine(AIMove(Random.Range(1, 3), GetBehavior(Random.Range(0, 4))));
                     }

@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponAttackScript : MonoBehaviour
+public class WeaponAttackScript : AttackScript<PlayerScript>
 {
-    public PlayerScript player;
     public GameObject attackEffect;
     public float rad;
-    public void EffectOn()
+
+    public override void EffectOn()
     {
-        Vector3 pos = player.hand.transform.position;
-        var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+        Vector3 pos = own.hand.transform.position;
+        var degree = own.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
         pos.x += Mathf.Cos(degree) * rad;
         pos.y += Mathf.Sin(degree) * rad;
         
-        var obj=Instantiate(attackEffect, pos, Quaternion.Euler(player.hand.transform.rotation.eulerAngles));
-        if (player.dir == MyDir.left)
+        var obj=Instantiate(attackEffect, pos, Quaternion.Euler(own.hand.transform.rotation.eulerAngles));
+        if (own.dir == MyDir.left)
         {
             var tmp = obj.transform.localScale;
             tmp.y *= -1;
@@ -25,28 +25,28 @@ public class WeaponAttackScript : MonoBehaviour
         {
 
         }
-
     }
-    public void Attack()
+    public override void AttackEvent()
     {
-        Vector3 pos = player.hand.transform.position;
-        var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
-        pos.x += Mathf.Cos(degree) * player.attackPos;
-        pos.y += Mathf.Sin(degree) * player.attackPos;
-        var units= Physics2D.OverlapCircleAll(pos, player.attackSize,player.attackTargetLayer);
+        Vector3 pos = own.hand.transform.position;
+        var degree = own.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+        pos.x += Mathf.Cos(degree) * own.attackPos;
+        pos.y += Mathf.Sin(degree) * own.attackPos;
+        var units= Physics2D.OverlapCircleAll(pos, own.attackSize,own.attackTargetLayer);
         foreach(var unit in units)
         {
-            unit.GetComponent<UnitScript>().UnitHit();
+            unit.GetComponent<UnitScript>().UnitHit(own.damage);
         }
     }
     private void OnDrawGizmos()
     {
-        Vector3 pos = player.hand.transform.position;
-        var degree = player.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
-        pos.x += Mathf.Cos(degree) * player.attackPos;
-        pos.y += Mathf.Sin(degree) * player.attackPos;
-        Gizmos.color =new Color(0, 0, 1,0.3f);
-        Gizmos.DrawSphere(pos, player.attackSize);
-
+        if (Application.isPlaying) { 
+        Vector3 pos = own.hand.transform.position;
+        var degree = own.hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+        pos.x += Mathf.Cos(degree) * own.attackPos;
+        pos.y += Mathf.Sin(degree) * own.attackPos;
+        Gizmos.color = new Color(0, 0, 1, 0.3f);
+        Gizmos.DrawSphere(pos, own.attackSize);
+    }
     }
 }

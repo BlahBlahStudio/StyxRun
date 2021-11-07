@@ -11,7 +11,7 @@ public class HitState : FSM<MonsterScript>
     }
     public override void Begin()
     {
-        Debug.Log("몬스터 공격 당함 시작");
+        //Debug.Log("몬스터 공격 당함 시작");
         obj.isHit = true;
         obj.motionAnimation.SetTrigger("Hit");
         obj.StartCoroutine(CheckAnimationState());
@@ -19,8 +19,11 @@ public class HitState : FSM<MonsterScript>
 
     public override void Exit()
     {
-        Debug.Log("몬스터 당함 종료");
-
+       // Debug.Log("몬스터 당함 종료");
+        if (obj.hp <= 0)
+        {
+           // obj.fsmMachine.Change(obj.states[(int)MonsterScript.MyState.Die]);
+        }
     }
     public override void Run()
     {

@@ -26,7 +26,7 @@ public class PlayerScript : UnitScript
     }
 
     // Update is called once per frame
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -45,11 +45,13 @@ public class PlayerScript : UnitScript
             //어떠한 벽에도 붙지 않았을때
             sideWallGravity = 1;
             motionAnimation.SetBool("Climbing", false);
+            attackAnimation.SetBool("Climbing", false);
         }
         else
         {
             AttackCancel();
             motionAnimation.SetBool("Climbing", true);
+            attackAnimation.SetBool("Climbing", true);
             if (sideWallGravity > 0.5f)
             {
                 sideWallGravity -= sideWallGravityPer * Time.deltaTime;
@@ -220,11 +222,11 @@ public class PlayerScript : UnitScript
         {
             if (isWall == 1)
             {
-                SetMotionDir(true);
+                SetMotionDir(MyDir.right);
             }
             if (isWall == 2)
             {
-                SetMotionDir(false);
+                SetMotionDir(MyDir.left);
             }
             obj.transform.localScale = new Vector3(1, 1, 0);
             obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -233,12 +235,12 @@ public class PlayerScript : UnitScript
         float z = 180 - Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x) * 180 / Mathf.PI;
         if ((z <= 90 && z >= 0) || (z > 270 && z < 360))
         {
-            SetMotionDir(true);
+            SetMotionDir(MyDir.right);
             obj.transform.localScale = new Vector3(1, 1, 0);
         }
         else
         {
-            SetMotionDir(false);
+            SetMotionDir(MyDir.left);
             obj.transform.localScale = new Vector3(-1, -1, 0);
         }
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, z));
