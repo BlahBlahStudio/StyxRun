@@ -16,5 +16,7 @@ public class MouseScript : MonoBehaviour
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         transform.position = mousePos;
+        //var angle = 180-Mathf.Atan2(mousePos.y - GameManager.Instance.player.transform.position.y, mousePos.x - GameManager.Instance.player.transform.position.x) * Mathf.Rad2Deg;
+        //Debug.Log(angle);
     }
 }

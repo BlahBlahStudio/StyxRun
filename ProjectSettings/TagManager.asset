@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - Unit
-  - 
+  - Player
+  - Unit_unDetected
+  - Unit_Detected
   - Floor
   - 
   - 

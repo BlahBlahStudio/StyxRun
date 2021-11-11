@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerScript : UnitScript
 {
-    bool isLeftMoveInput;
-    bool isRightMoveInput;
     bool isJumpInput;
     int isWall; // 1: 왼벽 2:오른벽 
     int jumpCnt;
@@ -15,28 +13,33 @@ public class PlayerScript : UnitScript
     [Header("공격 관련")]
     public GameObject hand;
     public Animator attackAnimation;
+    public Animator headAnimation;
+    public float attackSize;
+    public float attackPos;
+    public LayerMask attackTargetLayer;
 
-    [Header("모션 이동 관련")]
-    public Animator motionAnimation;
 
-    // Start is called before the first frame update
-    void Start()
+
+    protected override void Awake()
     {
+        base.Awake();
+       
+    }
+    // Start is called before the first frame update
+    protected override void Start()
+    {
+        base.Start();
         SetMoveKeys();
     }
-
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-
+        base.Update();
         SetAngle(hand, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         SetSideWallGravity(isWall);
-        OnFloorEvent();
     }
-
     private void FixedUpdate()
     {
-
         MovingLeft(isLeftMoveInput);
         MovingRight(isRightMoveInput);
     }
@@ -48,11 +51,13 @@ public class PlayerScript : UnitScript
             //어떠한 벽에도 붙지 않았을때
             sideWallGravity = 1;
             motionAnimation.SetBool("Climbing", false);
+            attackAnimation.SetBool("Climbing", false);
         }
         else
         {
-            attackAnimation.SetBool("Attack", false);
+            AttackCancel();
             motionAnimation.SetBool("Climbing", true);
+            attackAnimation.SetBool("Climbing", true);
             if (sideWallGravity > 0.5f)
             {
                 sideWallGravity -= sideWallGravityPer * Time.deltaTime;
@@ -171,12 +176,16 @@ public class PlayerScript : UnitScript
     }
     #endregion
 
+    protected override void SetThrowPoint()
+    {
+        
+    }
     protected override void Attack()
     {
         if (isWall == 0)
         {
             attackAnimation.SetBool("Attack", true);
-            
+            headAnimation.SetBool("Attack", true);
         }
         else
         {
@@ -186,6 +195,7 @@ public class PlayerScript : UnitScript
     protected override void AttackCancel()
     {
         attackAnimation.SetBool("Attack", false);
+        headAnimation.SetBool("Attack", false);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -199,10 +209,13 @@ public class PlayerScript : UnitScript
         if (UnitIsOnFloor())
         {
             footColider.enabled = true;
-            jumpCnt = 0;
-            isWall = 0;
-            SetJumpPower(walkingJumpPower);
-            Speed = GetSpeed("Walk");
+            if (rigid.velocity.y <= 0)
+            {
+                jumpCnt = 0;
+                isWall = 0;
+                SetJumpPower(walkingJumpPower);
+                Speed = GetSpeed("Walk");
+            }
 
         }
         else
@@ -219,11 +232,11 @@ public class PlayerScript : UnitScript
         {
             if (isWall == 1)
             {
-                SetMotionDir(true);
+                SetMotionDir(MyDir.right);
             }
             if (isWall == 2)
             {
-                SetMotionDir(false);
+                SetMotionDir(MyDir.left);
             }
             obj.transform.localScale = new Vector3(1, 1, 0);
             obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
@@ -232,12 +245,12 @@ public class PlayerScript : UnitScript
         float z = 180 - Mathf.Atan2(point.y - obj.transform.position.y, obj.transform.position.x - point.x) * 180 / Mathf.PI;
         if ((z <= 90 && z >= 0) || (z > 270 && z < 360))
         {
-            SetMotionDir(true);
+            SetMotionDir(MyDir.right);
             obj.transform.localScale = new Vector3(1, 1, 0);
         }
         else
         {
-            SetMotionDir(false);
+            SetMotionDir(MyDir.left);
             obj.transform.localScale = new Vector3(-1, -1, 0);
         }
         obj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, z));

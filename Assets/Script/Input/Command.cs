@@ -23,16 +23,30 @@ public class Command
     }
     public void Execute()
     {
+        if (owner == null)
+        {
+            return;
+        }
+
         if(msg!=null)msg();
         //Debug.Log(owner);
         if (owner != null)
-           Debug.Log(setKey + " key is Activate, owner :" + owner.name);
+        {
+            //Debug.Log(setKey + " key is Activate, owner :" + owner.name);
+        }
     }
     public void unExecute()
     {
-        if(unMsg!=null) unMsg();
+        if (owner == null)
+        {
+            return;
+        }
+
+        if (unMsg!=null) unMsg();
         if (owner != null)
-            Debug.Log(setKey + " key is InActive, owner :" + owner.name);
+        {
+            //Debug.Log(setKey + " key is InActive, owner :" + owner.name);
+        }
     }
     public void Init()
     {
