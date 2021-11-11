@@ -6,7 +6,6 @@ public class RangedMonsterScript : MonsterScript
 {
     [Header("АјАн")]
     public GameObject throwObj;
-    public Vector3 throwPoint;
     public float throwSpeed;
     // Start is called before the first frame update
     protected override void Start()

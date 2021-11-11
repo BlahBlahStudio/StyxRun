@@ -24,6 +24,7 @@ public class MonsterScript : UnitScript
 
     protected override void Awake()
     {
+        
         base.Awake();
         fsmMachine = new FSMMachine<MonsterScript>();
         states = new Dictionary<int,FSM<MonsterScript>>();
@@ -34,8 +35,9 @@ public class MonsterScript : UnitScript
         states.Add((int)MyState.Die, new DieState(this));
         fsmMachine.SetState(states[(int)MyState.Idle]);
     }
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         SetAICommand(AIController.AIBehaviors.Idle, Idle, null);
         SetAICommand(AIController.AIBehaviors.MoveLeft, MoveLeft, MoveLeftCancel);
         SetAICommand(AIController.AIBehaviors.MoveRight, MoveRight, MoveRightCancel);
@@ -108,12 +110,12 @@ public class MonsterScript : UnitScript
         isAttack = false;
     }
 
-    public override void UnitHit(float damage)
+    public override void UnitHit(AttackInfo info)
     {
-        base.UnitHit(damage);
+        base.UnitHit(info);
         if (!motionAnimation.GetCurrentAnimatorStateInfo(0).IsName("Die"))
         {
-            hp -= damage;
+            hp -= info.damage;
             fsmMachine.Change(states[(int)MyState.Hit]);
         }
     }

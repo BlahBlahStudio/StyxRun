@@ -30,6 +30,9 @@ public class UnitScript : MonoBehaviour
     public float mhp;
     public float hp;
     public float damage;
+    public int initWeapon;
+    public ItemWeapon equipWeapon;
+    public Vector3 throwPoint;
 
 
     [SerializeField]
@@ -61,22 +64,41 @@ public class UnitScript : MonoBehaviour
     [HideInInspector]
     public Animator motionAnimation;
 
+    [Header("공격 타입")]
+    public AttackManager attackManager;
+
     [Header("커멘드 관련")]
     public Dictionary<AIController.AIBehaviors, Command> cmdList;
     // Start is called before the first frame update
     protected virtual void Awake()
     {
+        attackManager = GetComponentInChildren<AttackManager>();
         cmdList = new Dictionary<AIController.AIBehaviors, Command>();
         rigid = GetComponent<Rigidbody2D>();
         motionAnimation = motion.GetComponent<Animator>();
+    }
+    protected virtual void Start()
+    {
         motionSize = motion.transform.localScale;
         startPos = transform.position;
+        attackManager.SetOwner(this);
+        SetEquipWeapon(initWeapon);
     }
+
     // Update is called once per frame
     protected virtual void Update()
     {
         OnFloorEvent();
-
+        SetThrowPoint();
+    }
+    public ItemWeapon GetEquipWeapon()
+    {
+        return equipWeapon;
+    }
+    public void SetEquipWeapon(int index)
+    {
+        //무기 인덱스로 무기 정보 생성후 리턴
+        equipWeapon = GameManager.Instance.GetItemWeapon(index, this);
     }
     public void SetMoveKeys()
     {
@@ -84,6 +106,7 @@ public class UnitScript : MonoBehaviour
         SetKey("D", MoveRight, MoveRightCancel);
         SetKey("W", MoveUp, MoveUpCancel);
         SetKey("Mouse0", Attack, AttackCancel);
+        //SetKey("X", () => { Debug.Log(DataManager.GetData(DBList.Item, 0, "Name")); }, null);
     }
     public void SetKey(string key, Command.Msg msg, Command.Msg unMsg = null)
     {
@@ -144,8 +167,9 @@ public class UnitScript : MonoBehaviour
         isRightMoveInput = false;
         //Debug.Log(gameObject.name + " Right InActive");
     }
-    public virtual void UnitHit(float damage)
+    public virtual void UnitHit(AttackInfo info)
     {
+
         //Debug.Log("Unit Hit Event Enter, Dmage:"+damage);
     }
     public virtual void UnitHitEvent()
@@ -199,6 +223,10 @@ public class UnitScript : MonoBehaviour
         {
             motion.transform.localScale = new Vector3(-motionSize.x, motionSize.y, motionSize.z);
         }
+    }
+    protected virtual void SetThrowPoint()
+    {
+
     }
     public bool UnitsOnLeftWall()
     {

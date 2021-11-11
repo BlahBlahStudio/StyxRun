@@ -19,12 +19,18 @@ public class PlayerScript : UnitScript
     public LayerMask attackTargetLayer;
 
 
-    // Start is called before the first frame update
-    void Start()
+
+    protected override void Awake()
     {
+        base.Awake();
+       
+    }
+    // Start is called before the first frame update
+    protected override void Start()
+    {
+        base.Start();
         SetMoveKeys();
     }
-
     // Update is called once per frame
     protected override void Update()
     {
@@ -170,6 +176,10 @@ public class PlayerScript : UnitScript
     }
     #endregion
 
+    protected override void SetThrowPoint()
+    {
+        
+    }
     protected override void Attack()
     {
         if (isWall == 0)

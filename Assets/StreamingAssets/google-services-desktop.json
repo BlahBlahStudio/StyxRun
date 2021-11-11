@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "50562565142",
+    "firebase_url": "https://styxrundb-default-rtdb.firebaseio.com",
+    "project_id": "styxrundb",
+    "storage_bucket": "styxrundb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50562565142:android:20e82130f35e6c65d4a137",
+        "android_client_info": {
+          "package_name": "com.BlahBlahStudio.StyxRunDev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50562565142-0husk474k9hfi3sd6gss6fs46b2il0e3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJHQGmWPQpSsxUdsWl6q57fJ2bmnqG6qQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "50562565142-0husk474k9hfi3sd6gss6fs46b2il0e3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 2497513606393607261}
   - component: {fileID: 2497513606393607262}
   - component: {fileID: 2497513606393607263}
-  - component: {fileID: 2497513606393607232}
-  - component: {fileID: 1498803224023250884}
+  - component: {fileID: 1099498244}
   m_Layer: 10
   m_Name: Motion
   m_TagString: Untagged
@@ -104,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2497513606393607232
+--- !u!114 &1099498244
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,19 +112,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2497513606393607260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3b30a31f5def1b4aacacf21e3981375, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1498803224023250884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2497513606393607260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be431674d99ac4e48ab609bc432d263d, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e5f30e7a3dfc6a499dc590952b7b08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   own: {fileID: 0}
@@ -195,6 +182,7 @@ MonoBehaviour:
   mhp: 100
   hp: 100
   damage: 5
+  initWeapon: 1
   jumpPower: 5
   jumpingJumpPower: 0.8
   walkingJumpPower: 1
@@ -214,6 +202,7 @@ MonoBehaviour:
   sideWallChkPos: {x: 0.44, y: 0, z: 0}
   sideWallChkSize: {x: 0.2, y: 0.2, z: 0}
   motionAnimation: {fileID: 2497513606393607263}
+  attackManager: {fileID: 0}
   isAttack: 0
   attackSize: 6.43
   isHit: 0
