@@ -13,11 +13,14 @@ public class SwordAttackScript : AttackScript
         public SwordAttackScript(UnitScript own)
     {
         this.own = own;
-        this.attackEffect = GameManager.Instance.effectList[0];
+       
+        
         //this.rad = rad;
     }
     public override void EffectOn()
     {
+        this.attackEffect = own.equipWeapon.attackEffect;
+        this.rad = own.equipWeapon.size;
         if (own is PlayerScript)
         {
             Vector3 pos = ((PlayerScript)own).hand.transform.position;
@@ -49,8 +52,13 @@ public class SwordAttackScript : AttackScript
             var units = Physics2D.OverlapCircleAll(pos, ((PlayerScript)own).attackSize, ((PlayerScript)own).attackTargetLayer);
             foreach (var unit in units)
             {
-                var attackInfo = new AttackInfo(((PlayerScript)own).gameObject, ((PlayerScript)own).damage);
-                unit.GetComponent<UnitScript>().UnitHit(attackInfo);
+                if (!unit.isTrigger)
+                {
+                    continue;
+                }
+                    var attackInfo = new AttackInfo(own.gameObject, own.damage);
+                    unit.GetComponent<UnitScript>().UnitHit(attackInfo);
+
             }
         }
     }

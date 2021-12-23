@@ -10,7 +10,9 @@ public enum ItemType
 }
 public abstract class Item
 {
+    public int index;
     public string name;
+    public string nickName;
     public Sprite icon;
     public ItemType type;
 }

@@ -22,6 +22,9 @@ public class MonsterScript : UnitScript
     public bool isHit;
     // Start is called before the first frame update
 
+    [Header("UI°ü·Ã")]
+    public Vector3 uiPosition;
+
     protected override void Awake()
     {
         
@@ -113,6 +116,10 @@ public class MonsterScript : UnitScript
     public override void UnitHit(AttackInfo info)
     {
         base.UnitHit(info);
+        if (hp <= 0)
+        {
+            return;
+        }
         if (!motionAnimation.GetCurrentAnimatorStateInfo(0).IsName("Die"))
         {
             hp -= info.damage;
@@ -207,5 +214,7 @@ public class MonsterScript : UnitScript
     {
         base.OnDrawGizmos();
         Gizmos.DrawSphere(transform.position, attackSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position+ uiPosition, 0.1f);
     }
 }

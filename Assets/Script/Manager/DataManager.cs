@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Firebase.Database;
 using Firebase;
 public enum DBList
 {
     Item,
-    Monster,
-    Behaviour,
+    //Monster,
+    //Behaviour,
     None
 }
-[System.Serializable]
-public class test
-{
-    public float a;
-}
+//[System.Serializable]
+
 public class DataManager : MonoBehaviour
 {
+    public Text infoMsg;
     public static DataManager Instance;
     public static Dictionary<string, IDictionary[]> dataList;
     public bool dataLoadingSuccess;
     public Dictionary<string, bool> dataLoadCheckList;
 
+    
     public void GetDB(DBList type)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -72,6 +72,10 @@ public class DataManager : MonoBehaviour
         }
         StartCoroutine(CheckDataLoad());
     }
+    private void Update()
+    {
+        infoMsg.text=dataLoadingSuccess.ToString();
+    }
     IEnumerator CheckDataLoad()
     {
         dataLoadingSuccess = false;
@@ -81,9 +85,9 @@ public class DataManager : MonoBehaviour
             loading = true;
             for (DBList type = DBList.Item; type < DBList.None; type++)
             {
-                if (dataLoadCheckList.ContainsKey(type.ToString()) == false)
+                if (dataLoadCheckList[type.ToString()] == false)
                 {
-                    Debug.Log(type.ToString());
+                    //Debug.Log(type.ToString());
                     loading = false;
                 }
             }
@@ -113,10 +117,10 @@ public class DataManager : MonoBehaviour
                 data = new SwordAttackScript(owner);
                 break;
             case 1:
-                data = new RangedAttackScript(owner);
+                data = new ArrowAttackScript(owner);
                 break;
             default:
-                data = null;
+                data = new RangedAttackScript(owner);
                 break;
         }
         return data;

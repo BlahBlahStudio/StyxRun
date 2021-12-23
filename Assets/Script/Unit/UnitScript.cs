@@ -32,7 +32,7 @@ public class UnitScript : MonoBehaviour
     public float damage;
     public int initWeapon;
     public ItemWeapon equipWeapon;
-    public Vector3 throwPoint;
+    public GameObject muzzle;
 
 
     [SerializeField]
@@ -89,7 +89,6 @@ public class UnitScript : MonoBehaviour
     protected virtual void Update()
     {
         OnFloorEvent();
-        SetThrowPoint();
     }
     public ItemWeapon GetEquipWeapon()
     {
@@ -100,6 +99,7 @@ public class UnitScript : MonoBehaviour
         //무기 인덱스로 무기 정보 생성후 리턴
         equipWeapon = GameManager.Instance.GetItemWeapon(index, this);
     }
+
     public void SetMoveKeys()
     {
         SetKey("A", MoveLeft, MoveLeftCancel);
@@ -169,7 +169,6 @@ public class UnitScript : MonoBehaviour
     }
     public virtual void UnitHit(AttackInfo info)
     {
-
         //Debug.Log("Unit Hit Event Enter, Dmage:"+damage);
     }
     public virtual void UnitHitEvent()
@@ -214,7 +213,6 @@ public class UnitScript : MonoBehaviour
     protected virtual void SetMotionDir(MyDir dir)
     {
         this.dir =dir;
-
         if (dir==MyDir.right)
         {
             motion.transform.localScale = motionSize;
@@ -224,9 +222,9 @@ public class UnitScript : MonoBehaviour
             motion.transform.localScale = new Vector3(-motionSize.x, motionSize.y, motionSize.z);
         }
     }
-    protected virtual void SetThrowPoint()
+    public virtual MyDir GetMotionDir()
     {
-
+        return dir;
     }
     public bool UnitsOnLeftWall()
     {

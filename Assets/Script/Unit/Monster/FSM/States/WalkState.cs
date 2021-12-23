@@ -37,6 +37,7 @@ public class WalkState : FSM<MonsterScript>
         }
         else
         {
+            Debug.Log("°È´Ù°¡ ¼û½¬±â·Î ÀÌµ¿");
             obj.fsmMachine.Change(obj.states[(int)MonsterScript.MyState.Idle]);
         }
     }

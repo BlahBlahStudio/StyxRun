@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
         "Q", "W", "E","R","T","Y","U","I","O","P",
           "A", "S","D","F","G","H","J","K","L",
            "Z", "X","C","V","B","N","M",
-        "Space","1","2","3","4","5","6","7","8","9","0",
+        "Space","Alpha1","Alpha2","Alpha3","Alpha4","Alpha5","Alpha6","Alpha7","Alpha8","Alpha9","Alpha0",
         "Mouse0","Mouse1"
         };
     private void Awake()
@@ -34,6 +34,7 @@ public class InputManager : MonoBehaviour
                 if (Input.GetKey(code))
                 {
                     //똑같은 키입력 여러개 생기는거 방지
+                    //Debug.Log(code);
                     m_activeInputs.Remove(code);
                     m_activeInputs.Add(code);
                     pressedInput.Add(code);

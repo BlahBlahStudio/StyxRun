@@ -30,6 +30,7 @@ public class FSMMachine<T>
     }
     public void Change(FSM<T> state)
     {
+        //Debug.Log(state);
         //변화희망 상태가 기존 상태이면 무시
         if (nowState == state)
         {
@@ -49,6 +50,6 @@ public class FSMMachine<T>
     {
         //own = owner;
         nowState = state;
-        Debug.Log("state 설정");
+        //Debug.Log("state 설정");
     }
 }

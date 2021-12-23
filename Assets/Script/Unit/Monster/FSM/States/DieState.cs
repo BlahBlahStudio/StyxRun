@@ -19,7 +19,6 @@ public class DieState : FSM<MonsterScript>
     public override void Exit()
     {
         Debug.Log("몬스터 사망 종료");
-        Object.Destroy(obj.gameObject);
     }
     public override void Run()
     {
@@ -31,6 +30,7 @@ public class DieState : FSM<MonsterScript>
         .IsName("Die"))
         {
             //전환 중일 때 실행되는 부분
+            obj.motionAnimation.SetTrigger("Die");
             yield return null;
         }
 
@@ -38,9 +38,16 @@ public class DieState : FSM<MonsterScript>
         .normalizedTime < 1)
         {
             //애니메이션 재생 중 실행되는 부분
-            yield return null;
+            if (!obj.motionAnimation.GetCurrentAnimatorStateInfo(0)
+        .IsName("Die"))
+            {
+                //전환 중일 때 실행되는 부분
+                obj.motionAnimation.SetTrigger("Die");
+            }
+                yield return null;
         }
-        obj.fsmMachine.Change(obj.states[(int)MonsterScript.MyState.Idle]);
+        Debug.Log("사망");
+        Object.Destroy(obj.gameObject);
         //애니메이션 완료 후 실행되는 부분
 
     }

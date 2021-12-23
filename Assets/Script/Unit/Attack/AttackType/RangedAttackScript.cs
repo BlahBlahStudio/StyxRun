@@ -10,12 +10,25 @@ public class RangedAttackScript : AttackScript
     }
     public override void AttackEvent()
     {
-        Vector3 offset =own.throwPoint;
-        var obj = Object.Instantiate(GameManager.Instance.throwObjectList[own.GetEquipWeapon().throwObject], own.transform.position + offset, Quaternion.identity);
+        var obj = Object.Instantiate(own.GetEquipWeapon().throwObject,own.muzzle.transform.position, Quaternion.identity);
         ThrowObjectScript throwScript=obj.GetComponent<ThrowObjectScript>();
         throwScript.dir = own.dir;
         throwScript.speed = own.GetEquipWeapon().throwSpeed;
-        throwScript.target = new Target(GameManager.Instance.player.transform.position);
+        throwScript.attackInfo = new AttackInfo(own.gameObject, own.damage);
+        throwScript.owner=own;
+        if (own is PlayerScript)
+        {
+            var degree = ((PlayerScript)own).hand.transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+            Vector3 pos = ((PlayerScript)own).weaponPivot.transform.position;
+            pos.x += Mathf.Cos(degree) * 3;
+            pos.y += Mathf.Sin(degree) * 3;
+            throwScript.target = new Target(pos);
+            
+        }
+        else
+        {
+            throwScript.target = new Target(((PlayerScript)GameManager.Instance.player).hand.transform.position);
+        }
     }
 
     public override void EffectOn() 

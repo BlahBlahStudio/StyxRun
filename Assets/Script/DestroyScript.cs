@@ -6,6 +6,7 @@ public class DestroyScript : MonoBehaviour
 {
     public void DestroyObj()
     {
+
         Destroy(gameObject);
     }
 }

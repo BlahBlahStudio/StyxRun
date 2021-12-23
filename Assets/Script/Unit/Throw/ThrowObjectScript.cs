@@ -47,8 +47,23 @@ public class HitTarget
         Monster,
         None
     }
-    public GameObject obj;
+    public UnitScript obj;
     public Detected state;
+    public void SetState(Detected state)
+    {
+        this.state = state;
+    }
+    public Detected TagToState()
+    {
+        try
+        {
+            return (Detected)System.Enum.Parse(typeof(Detected), obj.tag);
+        }
+        catch
+        {
+            return Detected.None;
+        }
+    }
 }
 public class ThrowObjectScript : MonoBehaviour
 {
@@ -67,22 +82,36 @@ public class ThrowObjectScript : MonoBehaviour
     public Vector3 startPosition;
     public Target target;
 
-    protected Animator anim;
+    public Animator anim;
     protected bool isThrowing;
+
+    [Header("공격 정보")]
+    public UnitScript owner;
+    public AttackInfo attackInfo;
+    public HitTarget.Detected myDetected;
     // Start is called before the first frame update
     private void Awake()
     {
         isThrowing = true;
     }
-    void Start()
+    protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
         startPosition = transform.position;
         SetStartOffset();
+        if (owner.tag == "Monster")
+        {
+            myDetected = HitTarget.Detected.Monster;
+        }
+        else if (owner.tag == "Player")
+        {
+            myDetected = HitTarget.Detected.Player;
+        }
+        Move();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         ThrowingStateChange();
         Move();
@@ -90,7 +119,7 @@ public class ThrowObjectScript : MonoBehaviour
     }
     public virtual void Move()
     {
-        if (isThrowing == true)
+        if (isThrowing)
         {
             angle = 180 - Mathf.Atan2(target.GetSetPos().y - startPosition.y, startPosition.x - target.GetSetPos().x) * Mathf.Rad2Deg;
             transform.position += new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad) * speed, Mathf.Sin(angle * Mathf.Deg2Rad) * speed) * Time.deltaTime;
@@ -99,18 +128,30 @@ public class ThrowObjectScript : MonoBehaviour
     }
     public virtual void DetectAndAttack()
     {
+        if (!isThrowing)
+            return;
+
         var target = Detect();
+        if (target.state == myDetected)
+        {
+            return;
+        }
         if (target.state == HitTarget.Detected.None)
         {
-
+            
             return;
         }else if (target.state == HitTarget.Detected.Player)
         {
-            EffectOn();
+            Attack(target);
             return;
         }else if (target.state == HitTarget.Detected.Floor)
         {
             EffectOn();
+            return;
+        }
+        else if (target.state == HitTarget.Detected.Monster)
+        {
+            Attack(target);
             return;
         }
     }
@@ -126,9 +167,14 @@ public class ThrowObjectScript : MonoBehaviour
     {
         isThrowing = false;
     }
-    public virtual void Attack()
+    public virtual void Attack(HitTarget target)
     {
-
+        UnitScript targetObj = target.obj.GetComponent<UnitScript>();
+        if (targetObj.hp > 0)
+        {
+            targetObj.UnitHit(attackInfo);
+            EffectOn();
+        }
     }
     public virtual HitTarget Detect()
     {
@@ -139,12 +185,16 @@ public class ThrowObjectScript : MonoBehaviour
         {
             foreach (var hit in hits)
             {
-                if (hit.tag == "Player") { 
+                if (hit.isTrigger == false && hit.tag!="Floor")
+                {
+                    continue;
+                }
+                if (hit.tag == "Player" || hit.tag=="Floor" || hit.tag=="Monster") { 
                     if (minDistance > Mathf.Abs(Vector2.Distance(hit.transform.position, transform.position)))
                     {
                         minDistance = Mathf.Abs(Vector2.Distance(hit.transform.position, transform.position));
-                        target.obj = hit.gameObject;
-                        target.state = HitTarget.Detected.Floor;
+                        target.obj = hit.GetComponent<UnitScript>();
+                        target.SetState(target.TagToState());
                     }
                 }
             }
@@ -158,6 +208,7 @@ public class ThrowObjectScript : MonoBehaviour
     }
     public void SetStartOffset()
     {
+        //반대편을 바라보면서 공격할때는 반대편으로 보내는게 아니라 그냥 보는 방향대로 보내게 하기 위해서 존재
         var distance = Mathf.Abs(target.GetSetPos().x - startPosition.x);
         if (dir == MyDir.right)
         {

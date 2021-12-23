@@ -19,6 +19,7 @@ public class AIController : MonoBehaviour
         if (state == null)
         {
             List<Require> req = new List<Require>();
+            req.Add(() => { return obj.hp > 0; });
             float time;
             int type = obj.InAttackRange();
             if (((MonsterScript)obj).fsmMachine.nowState == ((MonsterScript)obj).states[(int)MonsterScript.MyState.Idle])
